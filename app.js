@@ -8,6 +8,7 @@ let express = require('express'),
 // Connecting mongoDB
 mongoose.Promise = global.Promise;
 mongoose.connect(dataBaseConfig.db, {
+  useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false
 }).then(() => {
@@ -43,8 +44,8 @@ app.listen(port, () => {
 })
 
 // Find 404 and hand over to error handler
-app.use((req, res, next) => {
-  next(createError(404));
+app.use(function(req, res, next){
+  res.status(404).send("Sorry, requested resource not found (404)");
 });
 
 // Index Route
